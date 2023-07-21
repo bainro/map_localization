@@ -4,11 +4,7 @@ tensorboard
 numpy
 pandas
 Pillow
-gdown
 opencv-python
-folium
-geopy
 matplotlib
 scikit-image
-selenium
-pytz
+
