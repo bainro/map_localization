@@ -1,10 +1,8 @@
 torchvision
 torch
-tensorboard
 numpy
 pandas
 Pillow
 opencv-python
 matplotlib
 scikit-image
-
