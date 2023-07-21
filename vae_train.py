@@ -1,20 +1,13 @@
 import os
 from datetime import datetime
-import warnings
-warnings.filterwarnings("ignore")
 
 import torch
-from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import DataLoader
 from torch.nn import functional as F
 import torchvision.transforms as T
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import numpy as np
 import random
 
-from utils import LinearScheduler, save_args
 from vae_model import GeneralVAE
 from torch_dataloader import PerspectiveTransformTorchDataset
 from utils import parse_args
@@ -130,16 +123,6 @@ def main():
             optim.step()
             step += 1
 
-        writer.add_scalar('train/loss', loss.detach().cpu().item(), i_epoch)
-        writer.add_scalar('train/recon_loss', recon_loss.detach().cpu().item(), i_epoch)
-        writer.add_scalar('train/kl_loss', kl_loss.detach().cpu().item(), i_epoch)
-        writer.add_scalar('train/kl_annealing', kl_scheduler.val(), i_epoch)
-
-        if i_epoch % args.log_freq == 0:
-            writer.add_images('train/images/source', source_data[:8], i_epoch)
-            writer.add_images('train/images/target', target_data[:8], i_epoch)
-            writer.add_images('train/images/transform', predict_target[:8], i_epoch)
-
         valid_loss, valid_recon_loss, valid_kl_loss, _, _, _ = evaluate(model, valid_loader, kl_scheduler, writer, i_epoch, "valid")
         if valid_recon_loss < best_valid_recon_loss:
             print("Saving model, recon_loss: %.4f" % valid_recon_loss)
@@ -159,31 +142,6 @@ def main():
         test_loss, test_recon_loss, test_kl_loss, test_source_data, test_target_data, test_predict_target = evaluate(model, test_loader, kl_scheduler, writer, 0, "test")
         print("test loss: %.4f, test recon_loss: %.4f, test kl_loss: %.4f" % (
             test_loss, test_recon_loss, test_kl_loss))
-
-        if args.attn:
-            img_path = os.path.join(writer.get_logdir(), 'images')
-            os.makedirs(img_path, exist_ok=True)
-            fig, axs = plt.subplots(nrows=11, ncols=4, figsize=(8, 22))  # create figure & 1 axis
-            for i, (source, target, predict) in enumerate(zip(source_data, target_data, predict_target)):
-                axs[0, 0].imshow(source.transpose(0, 2).detach().cpu())
-                axs[0, 0].set_title("Source")
-                axs[0, 1].imshow(target.transpose(0, 2).detach().cpu())
-                axs[0, 1].set_title("Target")
-                axs[0, 2].imshow(predict.transpose(0, 2).detach().cpu())
-                axs[0, 2].set_title("Predict")
-                axs[0, 0].axis('off')
-                axs[0, 1].axis('off')
-                axs[0, 2].axis('off')
-                axs[0, 3].axis('off')
-                if args.attn:
-                    mu_attn = mu_attn_map[i]
-                    logsigma_attn = logsigma_attn_map[i]
-                    plot_attn_map(axs[1:6], source, mu_attn, name="mu_attn")
-                    plot_attn_map(axs[6:11], source, logsigma_attn, name="logsigma_attn")
-                fig.savefig(os.path.join(img_path, '%i.png' % i))  # save the figure to file
-                plt.close(fig)  # close the figure window
-
-    writer.close()
 
 
 if __name__ == '__main__':
