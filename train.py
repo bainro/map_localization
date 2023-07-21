@@ -14,7 +14,7 @@ import os
 from PIL import Image
 from tempfile import TemporaryDirectory
 
-cudnn.benchmark = True
+cudnn.benchmark = False # True
 plt.ion()   # interactive mode
 
 print("Download the data from https://download.pytorch.org/tutorial/hymenoptera_data.zip")
