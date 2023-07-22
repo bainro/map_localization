@@ -18,15 +18,10 @@ cudnn.benchmark = True
 
 train_trans = T.Compose([
     T.Resize(224, antialias=True),
-    # T.RandomResizedCrop(224, antialias=True),
-    # T.RandomHorizontalFlip(),
-    # T.GaussianBlur(kernel_size=(5, 9), sigma=(0.1, 5)),
-    # T.ColorJitter(brightness=.5, hue=.3),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 val_trans = T.Compose([
     T.Resize(224, antialias=True),
-    # T.CenterCrop(224),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
@@ -167,8 +162,7 @@ model_conv = model_conv.to(device)
 
 criterion = nn.MSELoss()
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
-# Decay LR by a factor of 0.1 every 7 epochs
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.2)
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=10, gamma=0.8)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
                          lr_schedule, num_epochs=160)
 
