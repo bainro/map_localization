@@ -126,7 +126,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                 if phase == 'val' and epoch_loss < best_loss:
                     best_loss = epoch_loss
                     torch.save(model.state_dict(), best_model_params_path)
-                    # print("new best!")
+                    print("new best!")
 
             print("")
 
@@ -167,9 +167,6 @@ def visualize_model(model, num_images=12):
         model.train(mode=was_training)
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
-#for param in model_conv.parameters():
-    #param.requires_grad = False
-
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
@@ -179,16 +176,11 @@ model_conv.fc = nn.Sequential(
 model_conv = model_conv.to(device)
 
 criterion = nn.MSELoss()
-
-# Observe that only parameters of final layer are being optimized as
-# opposed to before.
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
-
 # Decay LR by a factor of 0.1 every 7 epochs
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=50, gamma=0.1)
-
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=130)
+                         lr_schedule, num_epochs=100)
 
 visualize_model(model_conv)
 plt.show()
