@@ -62,9 +62,10 @@ inputs, _x, _y = next(iter(dataloaders['train']))
 # Make a grid from batch
 out = torchvision.utils.make_grid(inputs)
 
-imshow(out, title="test & verify!")
+imshow(out, title="Verify the images loaded correctly!")
+plt.show()
 
-def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
+def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
     since = time.time()
 
     # Create a temporary directory to save training checkpoints
