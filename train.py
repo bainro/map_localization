@@ -166,8 +166,7 @@ def visualize_model(model, num_images=12):
                     return
         model.train(mode=was_training)
 
-#model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
-model_conv = torchvision.models.resnet18()
+model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
 #for param in model_conv.parameters():
     #param.requires_grad = False
 
