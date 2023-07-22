@@ -188,10 +188,10 @@ optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.01, momentum=0.9)
 
 # Decay LR by a factor of 0.1 every 7 epochs
 #lr_scheduler = None
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=14, gamma=0.1)
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=30, gamma=0.1)
 
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=20)
+                         lr_schedule, num_epochs=30)
 
 visualize_model(model_conv)
 plt.show()
