@@ -53,8 +53,8 @@ def imshow(inp, title=None):
     plt.imshow(inp)
     if title is not None:
         plt.title(title)
-    plt.pause(0.001)  # pause a bit so that plots are updated
-
+    plt.pause(0.01)  # pause a bit so that plots are updated
+    plt.show()
 
 # Get a batch of training data
 inputs, _x, _y = next(iter(dataloaders['train']))
@@ -64,73 +64,68 @@ inputs = inputs[:8,...]
 out = torchvision.utils.make_grid(inputs)
 
 imshow(out, title="Verify the images loaded correctly!")
-plt.show()
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
-    since = time.time()
+    start_time = time.time()
+    best_loss = 1e8
+    best_model_params_path = "./best_model_params.pt"
+    torch.save(model.state_dict(), best_model_params_path)
 
-    # Create a temporary directory to save training checkpoints
-    with TemporaryDirectory() as tempdir:
-        best_model_params_path = os.path.join(tempdir, 'best_model_params.pt')
+    for epoch in range(num_epochs):
+        print(f'Epoch {epoch}/{num_epochs - 1}')
+        print('-' * 10)
 
-        torch.save(model.state_dict(), best_model_params_path)
-        best_loss = 1e8
+        # Each epoch has a training and validation phase
+        for phase in ['train', 'val']:
+            if phase == 'train':
+                model.train()  # Set model to training mode
+            else:
+                model.eval()   # Set model to evaluate mode
 
-        for epoch in range(num_epochs):
-            print(f'Epoch {epoch}/{num_epochs - 1}')
-            print('-' * 10)
+            running_loss = 0.0
 
-            # Each epoch has a training and validation phase
-            for phase in ['train', 'val']:
-                if phase == 'train':
-                    model.train()  # Set model to training mode
-                else:
-                    model.eval()   # Set model to evaluate mode
+            # Iterate over data.
+            for inputs, x, y in dataloaders[phase]:
+                inputs = inputs.to(device)
+                x = x.to(device)
+                y = y.to(device)
+                labels = torch.stack([x, y], dim=1)
+                labels = torch.squeeze(labels, -1)
+                #labels = torch.transpose(labels, 0, 1)
 
-                running_loss = 0.0
+                # zero the parameter gradients
+                optimizer.zero_grad()
 
-                # Iterate over data.
-                for inputs, x, y in dataloaders[phase]:
-                    inputs = inputs.to(device)
-                    x = x.to(device)
-                    y = y.to(device)
-                    labels = torch.stack([x, y], dim=1)
-                    labels = torch.squeeze(labels, -1)
-                    #labels = torch.transpose(labels, 0, 1)
+                # forward
+                # track history if only in train
+                with torch.set_grad_enabled(phase == 'train'):
+                    outputs = model(inputs)
+                    _, preds = torch.max(outputs, 1)
+                    loss = criterion(outputs, labels)
 
-                    # zero the parameter gradients
-                    optimizer.zero_grad()
+                    # backward + optimize only if in training phase
+                    if phase == 'train':
+                        loss.backward()
+                        optimizer.step()
 
-                    # forward
-                    # track history if only in train
-                    with torch.set_grad_enabled(phase == 'train'):
-                        outputs = model(inputs)
-                        _, preds = torch.max(outputs, 1)
-                        loss = criterion(outputs, labels)
+                # statistics
+                running_loss += loss.item() * inputs.size(0)
+            if phase == 'train' and scheduler != None:
+                scheduler.step()
 
-                        # backward + optimize only if in training phase
-                        if phase == 'train':
-                            loss.backward()
-                            optimizer.step()
+            epoch_loss = running_loss / dataset_sizes[phase]
 
-                    # statistics
-                    running_loss += loss.item() * inputs.size(0)
-                if phase == 'train' and scheduler != None:
-                    scheduler.step()
+            print(f'{phase} Loss: {epoch_loss:.4f}')
 
-                epoch_loss = running_loss / dataset_sizes[phase]
-
-                print(f'{phase} Loss: {epoch_loss:.4f}')
-
-                # deep copy the model
-                if phase == 'val' and epoch_loss < best_loss:
-                    best_loss = epoch_loss
-                    torch.save(model.state_dict(), best_model_params_path)
-                    print("new best!")
+            # deep copy the model
+            if phase == 'val' and epoch_loss < best_loss:
+                best_loss = epoch_loss
+                torch.save(model.state_dict(), best_model_params_path)
+                print("new best!")
 
             print("")
 
-        time_elapsed = time.time() - since
+        time_elapsed = time.time() - start_time
         print(f'Training complete in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s')
 
         # load best model weights
@@ -166,7 +161,7 @@ def visualize_model(model, num_images=12):
                     return
         model.train(mode=was_training)
 
-model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
+model_conv = torchvision.models.resnet34(weights='IMAGENET1K_V1')
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
