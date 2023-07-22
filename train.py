@@ -177,7 +177,7 @@ def visualize_model(model, num_images=1):
             gt_y = gt_y * map_img.shape[0]
             plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=18, label="Prediction")
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=18, label="Ground Truth")
-            plt.legend(loc="lower right", fontsize=8)
+            plt.legend(loc="lower right", fontsize=8, borderpad=0.2, labelspacing=0.35)
             
             plt.pause(0.001)
             plt.clf()
