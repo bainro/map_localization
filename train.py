@@ -35,7 +35,7 @@ val_trans = transforms.Compose([
 image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, target_size=256)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans, target_size=256)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=1,
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=3,
                                              shuffle=True, num_workers=4)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
@@ -57,7 +57,7 @@ def imshow(inp, title=None):
 
 
 # Get a batch of training data
-inputs, x, y = next(iter(dataloaders['train']))
+inputs, _x, _y = next(iter(dataloaders['train']))
 
 # Make a grid from batch
 out = torchvision.utils.make_grid(inputs)
