@@ -21,34 +21,29 @@ plt.ion()   # interactive mode
 
 print("Download the data from https://download.pytorch.org/tutorial/hymenoptera_data.zip")
 
-# Data augmentation and normalization for training
-# Just normalization for validation
-data_transforms = {
-    'train': transforms.Compose([
-        transforms.RandomResizedCrop(224),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ]),
-    'val': transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ]),
-}
+train_trans = transforms.Compose([
+    transforms.RandomResizedCrop(224),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
+val_trans = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+])
 
-data_dir = 'data/hymenoptera_data'
-image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                          data_transforms[x])
-                  for x in ['train', 'val']}
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
+image_datasets = {}
+image_datasets['train'] = LocalizeDataset('.data/nongen', train=True, transform=train_trans, target_size=256)
+image_datasets['val'] = LocalizeDataset('.data/nongen', train=False, transform=val_trans, target_size=256)
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32,
                                              shuffle=True, num_workers=4)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
-class_names = image_datasets['train'].classes
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+assert torch.cuda.is_available(), "GPU not found!"
+device = torch.device("cuda:0")
 
 def imshow(inp, title=None):
     """Display image for Tensor."""
@@ -64,12 +59,12 @@ def imshow(inp, title=None):
 
 
 # Get a batch of training data
-inputs, classes = next(iter(dataloaders['train']))
+inputs, x, y = next(iter(dataloaders['train']))
 
 # Make a grid from batch
 out = torchvision.utils.make_grid(inputs)
 
-imshow(out, title=[class_names[x] for x in classes])
+imshow(out, title="test & verify!")
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     since = time.time()
@@ -159,7 +154,7 @@ def visualize_model(model, num_images=6):
                 images_so_far += 1
                 ax = plt.subplot(num_images//2, 2, images_so_far)
                 ax.axis('off')
-                ax.set_title(f'predicted: {class_names[preds[j]]}')
+                ax.set_title(f'predicted: {preds[j]}')
                 imshow(inputs.cpu().data[j])
 
                 if images_so_far == num_images:
