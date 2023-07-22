@@ -173,22 +173,18 @@ for param in model_conv.parameters():
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
-     #nn.ReLU(),
      nn.Sigmoid(),
 )
 
 model_conv = model_conv.to(device)
 
 criterion = nn.MSELoss()
-#criterion = nn.CrossEntropyLoss()
 
 # Observe that only parameters of final layer are being optimized as
 # opposed to before.
-optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.1, momentum=0.9)
-#optimizer_conv = optim.Adam(model_conv.parameters(), lr=0.1)
+optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.01, momentum=0.9)
 
 # Decay LR by a factor of 0.1 every 7 epochs
-#lr_schedule = None
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 
 model_conv = train_model(model_conv, criterion, optimizer_conv,
