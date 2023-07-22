@@ -72,7 +72,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         best_model_params_path = os.path.join(tempdir, 'best_model_params.pt')
 
         torch.save(model.state_dict(), best_model_params_path)
-        best_loss = 0.0
+        best_loss = 1e8
 
         for epoch in range(num_epochs):
             print(f'Epoch {epoch}/{num_epochs - 1}')
