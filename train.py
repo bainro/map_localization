@@ -36,7 +36,6 @@ image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans, target_size=256)
 dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32,
                                              shuffle=True, num_workers=4)
-#@TODO turn shuffle back on :)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
 
@@ -53,16 +52,13 @@ def imshow(inp, title=None):
     plt.imshow(inp)
     if title is not None:
         plt.title(title)
-    plt.pause(0.01)  # pause a bit so that plots are updated
+    plt.pause(0.01)  # pause a bit for the plots
     plt.show()
 
 # Get a batch of training data
 inputs, _x, _y = next(iter(dataloaders['train']))
-
-# Make a grid from batch
 inputs = inputs[:8,...]
 out = torchvision.utils.make_grid(inputs)
-
 imshow(out, title="Verify the images loaded correctly!")
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
@@ -123,7 +119,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                 torch.save(model.state_dict(), best_model_params_path)
                 print("new best!")
 
-            print("")
+        print("")
 
         time_elapsed = time.time() - start_time
         print(f'Training complete in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s')
