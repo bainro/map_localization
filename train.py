@@ -166,9 +166,10 @@ def visualize_model(model, num_images=12):
                     return
         model.train(mode=was_training)
 
-model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
-for param in model_conv.parameters():
-    param.requires_grad = False
+#model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
+model_conv = torchvision.models.resnet18()
+#for param in model_conv.parameters():
+    #param.requires_grad = False
 
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
