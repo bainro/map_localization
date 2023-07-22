@@ -92,7 +92,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                     inputs = inputs.to(device)
                     x = x.to(device)
                     y = y.to(device)
-                    labels = torch.stack([x, y], dim=0)
+                    labels = torch.stack([x, y], dim=1)
                     #labels = torch.squeeze(labels, -1)
                     #labels = torch.transpose(labels, 0, 1)
 
