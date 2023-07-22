@@ -136,7 +136,7 @@ def visualize_model(model, num_images=12):
 
             for j in range(inputs.size()[0]):
                 images_so_far += 1
-                ax = plt.subplot(num_images//3, 3, images_so_far)
+                ax = plt.subplot(num_images//4, 4, images_so_far)
                 ax.axis('off')
                 o_x, o_y = outputs[j].cpu().tolist()
                 gt_x, gt_y = labels[j].cpu().tolist()
