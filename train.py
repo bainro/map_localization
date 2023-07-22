@@ -59,7 +59,6 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
     start_time = time.time()
     best_loss = 1e8
     best_model_params_path = "./best_model_params.pt"
-    torch.save(model.state_dict(), best_model_params_path)
 
     for epoch in range(num_epochs):
         print(f'Epoch {epoch}/{num_epochs - 1}')
@@ -139,7 +138,7 @@ def visualize_model(model, num_images=12):
                 images_so_far += 1
                 ax = plt.subplot(num_images//2, 2, images_so_far)
                 ax.axis('off')
-                ax.set_title(f'predicted: {outputs[j]} GT: {labels[j]}')
+                ax.set_title(f'predicted: {outputs[j][0][1]} GT: {labels[j]}')
                 imshow(inputs.cpu().data[j])
 
                 if images_so_far == num_images:
@@ -163,7 +162,7 @@ criterion = nn.MSELoss()
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=120)
+                         lr_schedule, num_epochs=0)
 
 visualize_model(model_conv)
 plt.show()
