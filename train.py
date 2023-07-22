@@ -117,7 +117,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
     model.load_state_dict(torch.load(best_model_params_path))
     return model
 
-def visualize_model(model, num_images=12):
+def visualize_model(model, num_images=1):
     was_training = model.training
     model.eval()
     images_so_far = 0
@@ -134,6 +134,7 @@ def visualize_model(model, num_images=12):
 
             outputs = model(inputs)
 
+            '''
             for j in range(inputs.size()[0]):
                 images_so_far += 1
                 ax = plt.subplot(num_images//4, 4, images_so_far)
@@ -142,10 +143,26 @@ def visualize_model(model, num_images=12):
                 gt_x, gt_y = labels[j].cpu().tolist()
                 ax.set_title(f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})')
                 imshow(inputs.cpu().data[j])
+           '''
 
+            o_x, o_y = outputs[0].cpu().tolist()
+            gt_x, gt_y = labels[0].cpu().tolist()
+            map_img = cv2.imread('./data/2nd_blueprint.png')
+            plt.imshow(map_img, 
+                       resample=False, 
+                       interpolation='none', 
+                       cmap='gray', 
+                       vmin=0, 
+                       vmax=255)
+
+            plt.scatter(x=o_x, y=o_y, c='[[255,255,0]]', s=3)
+            plt.scatter(x=gt_x, y=gt_y, c='[[0,255,255]]', s=3)
+
+                '''
                 if images_so_far == num_images:
                     model.train(mode=was_training)
                     return
+                '''
         model.train(mode=was_training)
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
