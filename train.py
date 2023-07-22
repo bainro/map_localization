@@ -93,7 +93,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                     x = x.to(device)
                     y = y.to(device)
                     labels = torch.stack([x, y], dim=1)
-                    #labels = torch.squeeze(labels, -1)
+                    labels = torch.squeeze(labels, -1)
                     #labels = torch.transpose(labels, 0, 1)
 
                     # zero the parameter gradients
