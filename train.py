@@ -22,7 +22,6 @@ train_trans = T.Compose([
     # T.RandomHorizontalFlip(),
     T.GaussianBlur(kernel_size=(5, 9), sigma=(0.1, 5)),
     T.ColorJitter(brightness=.5, hue=.3),
-    T.RandomPosterize(bits=2),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 val_trans = T.Compose([
