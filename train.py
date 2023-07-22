@@ -176,7 +176,8 @@ model_conv.fc = nn.Sequential(
 
 model_conv = model_conv.to(device)
 
-criterion = nn.MSELoss()
+# criterion = nn.MSELoss()
+criterion = nn.BCELoss()
 
 # Observe that only parameters of final layer are being optimized as
 # opposed to before.
