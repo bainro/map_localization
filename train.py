@@ -155,7 +155,7 @@ def visualize_model(model, num_images=6):
                 images_so_far += 1
                 ax = plt.subplot(num_images//2, 2, images_so_far)
                 ax.axis('off')
-                ax.set_title(f'predicted: {outputs[j]}')
+                ax.set_title(f'predicted: {outputs[j]} GT: {labels[j]}')
                 imshow(inputs.cpu().data[j])
 
                 if images_so_far == num_images:
