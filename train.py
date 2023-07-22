@@ -184,7 +184,7 @@ criterion = nn.MSELoss()
 # Observe that only parameters of final layer are being optimized as
 # opposed to before.
 #optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.01, momentum=0.9)
-optimizer_conv = optim.Adam(model_conv.fc.parameters(), lr=0.1)
+optimizer_conv = optim.Adam(model_conv.parameters(), lr=0.1)
 
 # Decay LR by a factor of 0.1 every 7 epochs
 lr_schedule = None
