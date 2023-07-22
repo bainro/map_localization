@@ -126,7 +126,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                 if phase == 'val' and epoch_loss < best_loss:
                     best_loss = epoch_loss
                     torch.save(model.state_dict(), best_model_params_path)
-                    print("new best!)
+                    print("new best!")
 
             print("")
 
