@@ -55,7 +55,7 @@ inputs, _x, _y = next(iter(dataloaders['train']))
 inputs = inputs[:8,...]
 out = torchvision.utils.make_grid(inputs)
 imshow(out, title="Verify the images loaded correctly!")
-plt.show()
+plt.show() 
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
     start_time = time.time()
