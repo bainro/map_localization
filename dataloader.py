@@ -8,7 +8,7 @@ from torchvision import transforms
 from torch.utils.data import Dataset
 
 class LocalizeDataset(Dataset):
-    def __init__(self, src_dir, train=True, transform=None, shuffle=True, **kwargs):
+    def __init__(self, src_dir, train=True, transform=None, shuffle=False, **kwargs):
         super().__init__(**kwargs)
         self.cam_paths = []
         self.x = []
