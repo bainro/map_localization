@@ -8,11 +8,13 @@ from torchvision import transforms
 from torch.utils.data import Dataset
 
 class LocalizeDataset(Dataset):
-    def __init__(self, src_dir, train=True, transform=None, shuffle=False, **kwargs):
+    def __init__(self, src_dir, train=True, transform=None, 
+                 shuffle=False, split=0.85 **kwargs):
         super().__init__(**kwargs)
         self.cam_paths = []
         self.x = []
         self.y = []
+        self.split = split
         self.transform = transform
 
         csv_f = os.path.join(src_dir, "meta_data.csv")
@@ -43,8 +45,7 @@ class LocalizeDataset(Dataset):
         self.x = torch.FloatTensor(np.array(self.x))
         self.y = torch.FloatTensor(np.array(self.y))
 
-        train_split = 0.85
-        train_idx = int(len(self.cam_paths) * train_split)
+        train_idx = int(len(self.cam_paths) * self.split)
 
         if train:
             self.cam_paths = self.cam_paths[:train_idx]
