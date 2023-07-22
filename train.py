@@ -149,10 +149,10 @@ def visualize_model(model, num_images=1):
             ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
-            ax.set_title(f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})')
+            ax.set_title("First Person View")
             imshow(inputs.cpu().data[0])
             
-            ax = plt.subplot(1, 2, 2)
+            ax = plt.subplot(1, 2, 2, width_ratios=[1, 4])
             ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
