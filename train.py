@@ -72,7 +72,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
         best_model_params_path = os.path.join(tempdir, 'best_model_params.pt')
 
         torch.save(model.state_dict(), best_model_params_path)
-        best_acc = 0.0
+        best_lost = 0.0
 
         for epoch in range(num_epochs):
             print(f'Epoch {epoch}/{num_epochs - 1}')
@@ -86,7 +86,6 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                     model.eval()   # Set model to evaluate mode
 
                 running_loss = 0.0
-                running_corrects = 0
 
                 # Iterate over data.
                 for inputs, x, y in dataloaders[phase]:
@@ -94,11 +93,8 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                     x = x.to(device)
                     y = y.to(device)
                     labels = torch.stack([x, y])
-                    print(1, labels.size())
                     labels = torch.squeeze(labels, -1)
-                    print(2, labels.size())
                     labels = torch.transpose(labels, 0, 1)
-                    print(3, labels.size())
 
                     # zero the parameter gradients
                     optimizer.zero_grad()
@@ -126,7 +122,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
                 # deep copy the model
                 if phase == 'val' and epoch_loss < best_loss:
-                    best_acc = epoch_acc
+                    best_loss = epoch_loss
                     torch.save(model.state_dict(), best_model_params_path)
 
             print("")
