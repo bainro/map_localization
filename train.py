@@ -187,7 +187,7 @@ criterion = nn.MSELoss()
 optimizer_conv = optim.Adam(model_conv.fc.parameters(), lr=0.1)
 
 # Decay LR by a factor of 0.1 every 7 epochs
-lr_scheduler = None
+lr_schedule = None
 #lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=10, gamma=0.5)
 
 model_conv = train_model(model_conv, criterion, optimizer_conv,
