@@ -150,13 +150,12 @@ def visualize_model(model, num_images=6):
             labels = torch.transpose(labels, 0, 1)
 
             outputs = model(inputs)
-            _, preds = torch.max(outputs, 1)
 
             for j in range(inputs.size()[0]):
                 images_so_far += 1
                 ax = plt.subplot(num_images//2, 2, images_so_far)
                 ax.axis('off')
-                ax.set_title(f'predicted: {preds[j]}')
+                ax.set_title(f'predicted: {outputs[j]}')
                 imshow(inputs.cpu().data[j])
 
                 if images_so_far == num_images:
