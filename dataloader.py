@@ -1,5 +1,6 @@
 import os
 import torch
+import random
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -7,7 +8,8 @@ from torchvision import transforms
 from torch.utils.data import Dataset
 
 class LocalizeDataset(Dataset):
-    def __init__(self, src_dir, train=True, transform=None, target_size=128, **kwargs):
+    def __init__(self, src_dir, train=True, transform=None, 
+                 shuffle=True, target_size=128, **kwargs):
 
         super().__init__(**kwargs)
         self.cam_paths = []
@@ -28,6 +30,8 @@ class LocalizeDataset(Dataset):
             idx = cam_f.replace('_camera.png', '').split('_')[-1]
             idxs.append(int(idx))
         idxs = sorted(idxs)
+        if shuffle:
+            idxs = random.shuffle(idxs)
 
         for idx in idxs:
             cam_p = os.path.join(src_dir, "%d_camera.png" % idx)
