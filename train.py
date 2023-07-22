@@ -29,7 +29,7 @@ image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans)
 dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32,
-                                             shuffle=True, num_workers=4)
+                                             shuffle=False, num_workers=4)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
 
@@ -124,7 +124,8 @@ def visualize_model(model, num_images=1):
     fig = plt.figure()
 
     with torch.no_grad():
-        for i, (inputs, x, y) in enumerate(dataloaders['val']):
+        for i, (inputs, x, y) in enumerate(dataloaders['train']):
+        # for i, (inputs, x, y) in enumerate(dataloaders['val']):
             inputs = inputs.to(device)
             x = x.to(device)
             y = y.to(device)
@@ -175,7 +176,7 @@ def visualize_model(model, num_images=1):
             plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=18)
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=18)
             plt.pause(0.001)
-            if True: return
+            clf()
             
             '''
                 if images_so_far == num_images:
