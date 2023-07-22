@@ -17,11 +17,11 @@ from matplotlib.gridspec import GridSpec
 cudnn.benchmark = True
 
 train_trans = T.Compose([
-    T.Resize(224, antialias=True),
+    T.Resize(224),#, antialias=True),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 val_trans = T.Compose([
-    T.Resize(224, antialias=True),
+    T.Resize(224),#, antialias=True),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
