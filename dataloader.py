@@ -8,15 +8,12 @@ from torchvision import transforms
 from torch.utils.data import Dataset
 
 class LocalizeDataset(Dataset):
-    def __init__(self, src_dir, train=True, transform=None, 
-                 shuffle=True, target_size=128, **kwargs):
-
+    def __init__(self, src_dir, train=True, transform=None, shuffle=True, **kwargs):
         super().__init__(**kwargs)
         self.cam_paths = []
         self.x = []
         self.y = []
         self.transform = transform
-        self.target_size = target_size
 
         csv_f = os.path.join(src_dir, "meta_data.csv")
         all_meta = pd.read_csv(csv_f, index_col=0)
@@ -60,15 +57,11 @@ class LocalizeDataset(Dataset):
             self.y = self.y[train_idx:]
             print("number of validation images: %i" % len(self.cam_paths))
 
-        
-
     def _pil_loader(self, path):
         with open(path, "rb") as f:
             img = Image.open(f)
             img = img.convert("RGB")
             img = transforms.functional.pil_to_tensor(img)
-            target_size = (self.target_size, self.target_size)
-            img = transforms.functional.resize(img, target_size, antialias=True)
             img = img.type(torch.float32) / 255
             return img
 
