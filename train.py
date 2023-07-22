@@ -164,10 +164,9 @@ def visualize_model(model, num_images=6):
         model.train(mode=was_training)
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
-for param in model_conv.parameters():
-    param.requires_grad = False
+#for param in model_conv.parameters():
+    #param.requires_grad = False
 
-# Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
@@ -180,7 +179,7 @@ criterion = nn.MSELoss()
 
 # Observe that only parameters of final layer are being optimized as
 # opposed to before.
-optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.0001, momentum=0.9)
+optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.0001, momentum=0.9)
 # optimizer_conv = optim.Adam(model_conv.fc.parameters(), lr=0.1)
 
 # Decay LR by a factor of 0.1 every 7 epochs
