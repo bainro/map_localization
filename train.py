@@ -81,19 +81,15 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                 y = y.to(device)
                 labels = torch.stack([x, y], dim=1)
                 labels = torch.squeeze(labels, -1)
-                #labels = torch.transpose(labels, 0, 1)
 
                 # zero the parameter gradients
                 optimizer.zero_grad()
 
                 # forward
-                # track history if only in train
                 with torch.set_grad_enabled(phase == 'train'):
                     outputs = model(inputs)
-                    _, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
-
-                    # backward + optimize only if in training phase
+                    # backward
                     if phase == 'train':
                         loss.backward()
                         optimizer.step()
