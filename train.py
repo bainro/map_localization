@@ -135,7 +135,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
         model.load_state_dict(torch.load(best_model_params_path))
     return model
 
-def visualize_model(model, num_images=6):
+def visualize_model(model, num_images=12):
     was_training = model.training
     model.eval()
     images_so_far = 0
