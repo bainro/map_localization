@@ -117,17 +117,15 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
                     # statistics
                     running_loss += loss.item() * inputs.size(0)
-                    running_corrects += torch.sum(preds == labels.data)
                 if phase == 'train':
                     scheduler.step()
 
                 epoch_loss = running_loss / dataset_sizes[phase]
-                epoch_acc = running_corrects.double() / dataset_sizes[phase]
 
                 print(f'{phase} Loss: {epoch_loss:.4f}')
 
                 # deep copy the model
-                if phase == 'val' and epoch_acc > best_acc:
+                if phase == 'val' and epoch_loss < best_loss:
                     best_acc = epoch_acc
                     torch.save(model.state_dict(), best_model_params_path)
 
