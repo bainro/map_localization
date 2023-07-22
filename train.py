@@ -156,10 +156,10 @@ def visualize_model(model, num_images=1):
                        vmax=255)
 
             # denormalize (i.e. convert back to px space)
-            o_x = o_x * map_img.shape[0]
-            o_y = o_y * map_img.shape[1]
-            gt_x = gt_x * map_img.shape[0]
-            gt_y = gt_y * map_img.shape[1]
+            o_x = o_x * map_img.shape[1]
+            o_y = o_y * map_img.shape[0]
+            gt_x = gt_x * map_img.shape[1]
+            gt_y = gt_y * map_img.shape[0]
             plt.scatter(x=o_x, y=o_y, c=[[1.,1.,0.,1.]], s=25)
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,1.,1.]], s=25)
             plt.pause(0.001)
