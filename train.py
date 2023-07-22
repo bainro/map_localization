@@ -167,7 +167,7 @@ for param in model_conv.parameters():
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
-     nn.Linear(num_ftrs), 
+     nn.Linear(num_ftrs, 2), 
      nn.Sigmoid(...)
 )
 
