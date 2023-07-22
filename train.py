@@ -35,7 +35,7 @@ val_trans = transforms.Compose([
 image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, target_size=256)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans, target_size=256)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32,
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=1,
                                              shuffle=True, num_workers=4)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
@@ -58,6 +58,7 @@ def imshow(inp, title=None):
 
 # Get a batch of training data
 inputs, x, y = next(iter(dataloaders['train']))
+print(x)
 
 # Make a grid from batch
 out = torchvision.utils.make_grid(inputs)
@@ -118,18 +119,17 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 epoch_loss = running_loss / dataset_sizes[phase]
                 epoch_acc = running_corrects.double() / dataset_sizes[phase]
 
-                print(f'{phase} Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
+                print(f'{phase} Loss: {epoch_loss:.4f}')
 
                 # deep copy the model
                 if phase == 'val' and epoch_acc > best_acc:
                     best_acc = epoch_acc
                     torch.save(model.state_dict(), best_model_params_path)
 
-            print()
+            print("")
 
         time_elapsed = time.time() - since
         print(f'Training complete in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s')
-        print(f'Best val Acc: {best_acc:4f}')
 
         # load best model weights
         model.load_state_dict(torch.load(best_model_params_path))
