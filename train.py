@@ -155,7 +155,7 @@ def visualize_model(model, num_images=1):
                        vmin=0, 
                        vmax=255)
 
-            plt.scatter(x=o_x, y=o_y, c='[(255,255,0)]', s=3)
+            plt.scatter(x=o_x, y=o_y, c='[255,255,0]', s=3)
             plt.scatter(x=gt_x, y=gt_y, c='[[0,255,255]]', s=3)
 
             '''
