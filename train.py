@@ -145,6 +145,15 @@ def visualize_model(model, num_images=1):
                 imshow(inputs.cpu().data[j])
            '''
 
+            ax = plt.subplot(1, 2, 1)
+            ax.axis('off')
+            o_x, o_y = outputs[0].cpu().tolist()
+            gt_x, gt_y = labels[0].cpu().tolist()
+            ax.set_title(f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})')
+            imshow(inputs.cpu().data[j])
+            
+            ax = plt.subplot(1, 2, 2)
+            ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
             map_img = plt.imread('./data/2nd_blueprint.png')
@@ -163,6 +172,7 @@ def visualize_model(model, num_images=1):
             plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=18)
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=18)
             plt.pause(0.001)
+            if True: return
             
             '''
                 if images_so_far == num_images:
