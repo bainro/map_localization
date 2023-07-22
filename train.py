@@ -147,7 +147,7 @@ def visualize_model(model, num_images=1):
 
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
-            map_img = cv2.imread('./data/2nd_blueprint.png')
+            map_img = plt.imread('./data/2nd_blueprint.png')
             plt.imshow(map_img, 
                        resample=False, 
                        interpolation='none', 
