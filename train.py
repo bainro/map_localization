@@ -90,7 +90,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 
                 # Iterate over data.
                 for inputs, x, y in dataloaders[phase]:
-                    # inputs = inputs.to(device)
+                    inputs = inputs.to(device)
                     labels = torch.stack([x, y])
                     labels = labels.to(device)
 
