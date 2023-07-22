@@ -17,7 +17,7 @@ from tempfile import TemporaryDirectory
 from torchvision import datasets, models, transforms
 
 cudnn.benchmark = True
-plt.ion()   # interactive mode
+#plt.ion()   # interactive mode
 
 print("Download the data from https://download.pytorch.org/tutorial/hymenoptera_data.zip")
 
@@ -191,5 +191,5 @@ model_conv = train_model(model_conv, criterion, optimizer_conv,
 
 visualize_model(model_conv)
 
-plt.ioff()
+#plt.ioff()
 plt.show()
