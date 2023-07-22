@@ -66,7 +66,7 @@ class LocalizeDataset(Dataset):
             img = img.convert("RGB")
             img = transforms.functional.pil_to_tensor(img)
             target_size = (self.target_size, self.target_size)
-            img = transforms.functional.resize(img, target_size)
+            img = transforms.functional.resize(img, target_size, antialias=True)
             img = img.type(torch.float32) / 255
             return img
 
