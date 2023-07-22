@@ -53,12 +53,14 @@ class LocalizeDataset(Dataset):
             self.cam_paths = self.cam_paths[:train_idx]
             self.x = self.x[:train_idx]
             self.y = self.y[:train_idx]
+            print("number of train images: %i" % len(self.cam_paths))
         else:
             self.cam_paths = self.cam_paths[train_idx:]
             self.x = self.x[train_idx:]
             self.y = self.y[train_idx:]
+            print("number of validation images: %i" % len(self.cam_paths))
 
-        print("Total number of images: %i" % len(self.cam_paths))
+        
 
     def _pil_loader(self, path):
         with open(path, "rb") as f:
