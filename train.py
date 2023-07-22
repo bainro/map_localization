@@ -175,8 +175,13 @@ def visualize_model(model, num_images=1):
             o_y = o_y * map_img.shape[0]
             gt_x = gt_x * map_img.shape[1]
             gt_y = gt_y * map_img.shape[0]
-            plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=18)
-            plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=18)
+            plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=18, label="Prediction")
+            plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=18, label="Ground Truth")
+
+            plt.plot(x, y1, "-b", label="sine")
+            plt.plot(x, y2, "-r", label="cosine")
+            plt.legend(loc="upper left")
+            
             plt.pause(0.001)
             plt.clf()
             
