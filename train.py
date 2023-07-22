@@ -11,25 +11,30 @@ from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
 from dataloader import LocalizeDataset
 from tempfile import TemporaryDirectory
-from torchvision import datasets, models, transforms
+from torchvision import datasets, models
+from torchvision import transforms as T
 
 cudnn.benchmark = True
 
-train_trans = transforms.Compose([
-    transforms.RandomResizedCrop(224, antialias=True),
-    transforms.RandomHorizontalFlip(),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+train_trans = T.Compose([
+    T.Resize(224, antialias=True),
+    # T.RandomResizedCrop(224, antialias=True),
+    # T.RandomHorizontalFlip(),
+    T.GaussianBlur(kernel_size=(5, 9), sigma=(0.1, 5)),
+    T.ColorJitter(brightness=.5, hue=.3),
+    T.RandomPosterize(bits=2),
+    T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
-val_trans = transforms.Compose([
-    transforms.Resize(256, antialias=True),
-    transforms.CenterCrop(224),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+val_trans = T.Compose([
+    T.Resize(224, antialias=True),
+    # T.CenterCrop(224),
+    T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
 image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, target_size=256)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans, target_size=256)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32,
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=64,
                                              shuffle=True, num_workers=4)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
@@ -157,6 +162,7 @@ def visualize_model(model, num_images=6):
                     model.train(mode=was_training)
                     return
         model.train(mode=was_training)
+        plt.show()
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
 for param in model_conv.parameters():
@@ -184,6 +190,3 @@ model_conv = train_model(model_conv, criterion, optimizer_conv,
                          exp_lr_scheduler, num_epochs=1)
 
 visualize_model(model_conv)
-
-#plt.ioff()
-plt.show()
