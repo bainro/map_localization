@@ -168,11 +168,16 @@ for param in model_conv.parameters():
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs = model_conv.fc.in_features
-model_conv.fc = nn.Linear(num_ftrs, 2)
+fc = nn.Linear(num_ftrs, 2)
+sig = nn.Sigmoid()
+def sigmoid_fc(x):
+    return sig(fc(x))
+model_conv.fc = sigmoid_fc
+import pdb; pdb.set_trace()
 
 model_conv = model_conv.to(device)
 
-criterion = nn.CrossEntropyLoss()
+criterion = nn.MSELoss()
 
 # Observe that only parameters of final layer are being optimized as
 # opposed to before.
