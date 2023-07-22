@@ -157,7 +157,8 @@ def visualize_model(model, num_images=1):
 
             plt.scatter(x=o_x, y=o_y, c=[[1.,1.,0.,1.]], s=3)
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,1.,1.]], s=3)
-
+            plt.pause(0.001)
+            
             '''
                 if images_so_far == num_images:
                     model.train(mode=was_training)
