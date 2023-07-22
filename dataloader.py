@@ -80,6 +80,8 @@ class LocalizeDataset(Dataset):
         x = self.x[idx]
         y = self.y[idx]
         if self.transform is not None:
-            type(cam_img)
+            print("\n\n\n\n")
+            print(type(cam_img))
+            print("\n\n\n\n")
             cam_img = self.transform(cam_img)
         return cam_img, x, y
