@@ -158,11 +158,11 @@ def visualize_model(model, num_images=1):
             plt.scatter(x=o_x, y=o_y, c='[[255,255,0]]', s=3)
             plt.scatter(x=gt_x, y=gt_y, c='[[0,255,255]]', s=3)
 
-                '''
+            '''
                 if images_so_far == num_images:
                     model.train(mode=was_training)
                     return
-                '''
+            '''
         model.train(mode=was_training)
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
