@@ -29,7 +29,7 @@ image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, 
                                           shuffle=False, split=0.85)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans,
-                                        shuffle=False, split=0.85))
+                                        shuffle=False, split=0.85)
 dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=1,
                                              shuffle=False, num_workers=4)
               for x in ['train', 'val']}
