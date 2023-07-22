@@ -32,7 +32,7 @@ class LocalizeDataset(Dataset):
             idxs.append(int(idx))
         idxs = sorted(idxs)
         if shuffle:
-            random.shuffle(idxs)
+            random.Random(42).shuffle(idxs)
 
         for idx in idxs:
             cam_p = os.path.join(src_dir, "%d_camera.png" % idx)
