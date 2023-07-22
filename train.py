@@ -145,15 +145,15 @@ def visualize_model(model, num_images=1):
                 imshow(inputs.cpu().data[j])
            '''
 
-            f, (ax1, ax2) = plt.subplots(1, 2, width_ratios=[1, 3])
-            ax1.axis('off')
+            ax = plt.subplots(1, 2, width_ratios=[1, 3])
+            ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
-            ax1.set_title("First Person View")
+            ax.set_title("First Person View")
             imshow(inputs.cpu().data[0])
             
-            #ax = plt.subplot(1, 2, 2, width_ratios=[1, 4])
-            ax2.axis('off')
+            ax = plt.subplot(1, 2, 2)
+            ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
             map_img = plt.imread('./data/2nd_blueprint.png')
