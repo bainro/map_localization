@@ -58,7 +58,6 @@ def imshow(inp, title=None):
 
 # Get a batch of training data
 inputs, x, y = next(iter(dataloaders['train']))
-print(x)
 
 # Make a grid from batch
 out = torchvision.utils.make_grid(inputs)
