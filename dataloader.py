@@ -24,6 +24,7 @@ class LocalizeDataset(Dataset):
         meta_y = all_meta[['y']]
         files = os.listdir(src_dir)
         cam_pic_files = [f for f in files if '_camera.png' in f]
+        assert len(cam_pic_files) > 0, "no camera images found :("
 
         idxs = []
         for cam_f in cam_pic_files:
