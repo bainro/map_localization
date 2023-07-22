@@ -21,8 +21,8 @@ train_trans = T.Compose([
     T.Resize(224, antialias=True),
     # T.RandomResizedCrop(224, antialias=True),
     # T.RandomHorizontalFlip(),
-    T.GaussianBlur(kernel_size=(5, 9), sigma=(0.1, 5)),
-    T.ColorJitter(brightness=.5, hue=.3),
+    # T.GaussianBlur(kernel_size=(5, 9), sigma=(0.1, 5)),
+    # T.ColorJitter(brightness=.5, hue=.3),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 val_trans = T.Compose([
