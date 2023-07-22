@@ -168,7 +168,7 @@ for param in model_conv.parameters():
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
-     nn.Sigmoid(...)
+     nn.Sigmoid()
 )
 
 model_conv = model_conv.to(device)
