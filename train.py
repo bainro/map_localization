@@ -120,11 +120,11 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
 
         print("")
 
-        time_elapsed = time.time() - start_time
-        print(f'Training complete in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s')
+    time_elapsed = time.time() - start_time
+    print(f'Training complete in {time_elapsed // 60:.0f}m {time_elapsed % 60:.0f}s')
 
-        # load best model weights
-        model.load_state_dict(torch.load(best_model_params_path))
+    # load best model weights
+    model.load_state_dict(torch.load(best_model_params_path))
     return model
 
 def visualize_model(model, num_images=12):
