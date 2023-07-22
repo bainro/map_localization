@@ -13,6 +13,7 @@ import time
 import os
 from PIL import Image
 from tempfile import TemporaryDirectory
+from dataloader import LocalizeDataset
 
 cudnn.benchmark = True
 plt.ion()   # interactive mode
