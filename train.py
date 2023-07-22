@@ -170,8 +170,8 @@ model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
-     nn.ReLU(),
-     #nn.Sigmoid(),
+     #nn.ReLU(),
+     nn.Sigmoid(),
 )
 
 model_conv = model_conv.to(device)
