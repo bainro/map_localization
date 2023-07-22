@@ -145,7 +145,7 @@ def visualize_model(model, num_images=1):
                 imshow(inputs.cpu().data[j])
            '''
 
-            ax = plt.subplots(1, 2, 1)
+            ax = plt.subplot(1, 2, 1)
             ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
             gt_x, gt_y = labels[0].cpu().tolist()
