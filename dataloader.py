@@ -1,13 +1,10 @@
 import os
-import math
 import torch
-import argparse
 import numpy as np
 import pandas as pd
 from PIL import Image
-import matplotlib.pyplot as plt
 from torchvision import transforms
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 
 class LocalizeDataset(Dataset):
     def __init__(self, src_dir, train=True, transform=None, target_size=128, **kwargs):
