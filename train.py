@@ -176,7 +176,7 @@ def visualize_model(model, num_images=1):
             plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=18)
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=18)
             plt.pause(0.001)
-            clf()
+            plt.clf()
             
             '''
                 if images_so_far == num_images:
