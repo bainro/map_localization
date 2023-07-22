@@ -181,7 +181,6 @@ def visualize_model(model, num_images=1):
             fig.savefig('/tmp/test.png', dpi=1200, bbox_inches='tight') # format='svg'
             plt.pause(0.001)
             plt.clf()
-            return
             
             '''
                 if images_so_far == num_images:
