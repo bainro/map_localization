@@ -55,8 +55,8 @@ class LocalizeDataset(Dataset):
             self.y = self.y[:train_idx]
         else:
             self.cam_paths = self.cam_paths[train_idx:]
-            self.x = self.x[:train_idx:]
-            self.y = self.y[:train_idx:]
+            self.x = self.x[train_idx:]
+            self.y = self.y[train_idx:]
 
         print("Total number of images: %i" % len(self.cam_paths))
 
