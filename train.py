@@ -178,8 +178,8 @@ def visualize_model(model, num_images=1):
             plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=15, label="Prediction")
             plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=15, label="Ground Truth")
             plt.legend(loc="lower right", fontsize=6, frameon=False, bbox_to_anchor=(1.0, -0.05), labelspacing=0.25)
-            # fig.savefig('/tmp/test.png', dpi=1200, bbox_inches='tight') # format='svg'
-            plt.pause(0.001)
+            fig.savefig(f'/tmp/{i:05d}.png', dpi=1200, bbox_inches='tight') # format='svg'
+            # plt.pause(0.001)
             plt.clf()
             
             '''
@@ -208,4 +208,4 @@ model_conv = train_model(model_conv, criterion, optimizer_conv,
                          lr_schedule, num_epochs=0)
 
 visualize_model(model_conv)
-plt.show()
+# plt.show()
