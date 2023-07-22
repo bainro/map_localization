@@ -14,7 +14,6 @@ from torchvision import transforms as T
 from torchvision import datasets, models
 from matplotlib.gridspec import GridSpec
 
-
 cudnn.benchmark = True
 
 train_trans = T.Compose([
@@ -147,7 +146,7 @@ def visualize_model(model, num_images=1):
            '''
 
             gs = GridSpec(1,9) # 1 rows, 9 columns
-            ax = plt.add_subplot(gs[1,:3])
+            ax = fig.add_subplot(gs[1,:3])
             # ax = plt.subplot(1, 2, 1)
             ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
@@ -155,7 +154,7 @@ def visualize_model(model, num_images=1):
             ax.set_title("First Person View")
             imshow(inputs.cpu().data[0])
 
-            ax = plt.add_subplot(gs[1,3:])
+            ax = fig.add_subplot(gs[1,3:])
             # ax = plt.subplot(1, 2, 2)
             ax.axis('off')
             o_x, o_y = outputs[0].cpu().tolist()
