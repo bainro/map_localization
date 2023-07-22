@@ -170,7 +170,7 @@ model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
 num_ftrs = model_conv.fc.in_features
 model_conv.fc = nn.Sequential(
      nn.Linear(num_ftrs, 2), 
-     nn.Relu(),
+     nn.ReLU(),
      #nn.Sigmoid(),
 )
 
