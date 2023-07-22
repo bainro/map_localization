@@ -9,7 +9,7 @@ from torch.utils.data import Dataset
 
 class LocalizeDataset(Dataset):
     def __init__(self, src_dir, train=True, transform=None, 
-                 shuffle=True, target_size=128, **kwargs):
+                 shuffle=False, target_size=128, **kwargs):
 
         super().__init__(**kwargs)
         self.cam_paths = []
