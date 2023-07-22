@@ -42,8 +42,8 @@ class LocalizeDataset(Dataset):
             self.y.append(y)
 
         self.cam_paths = np.array(self.cam_paths)
-        self.x = torch.from_numpy(self.x).type(torch.float32)
-        self.y = torch.from_numpy(self.y).type(torch.float32)
+        self.x = torch.FloatTensor(self.x)
+        self.y = torch.FloatTensor(self.y)
 
         train_split = 0.8
         train_idx = int(len(self.cam_paths) * train_split)
