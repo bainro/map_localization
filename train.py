@@ -1,19 +1,20 @@
 # Started from: https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html
+# @AUTHOR Robert Bain rkbain@uci.edu
 
+import os
+import time
 import torch
+import torchvision
+import numpy as np
+from PIL import Image
 import torch.nn as nn
 import torch.optim as optim
+import matplotlib.pyplot as plt
 from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
-import numpy as np
-import torchvision
-from torchvision import datasets, models, transforms
-import matplotlib.pyplot as plt
-import time
-import os
-from PIL import Image
-from tempfile import TemporaryDirectory
 from dataloader import LocalizeDataset
+from tempfile import TemporaryDirectory
+from torchvision import datasets, models, transforms
 
 cudnn.benchmark = True
 plt.ion()   # interactive mode
