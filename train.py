@@ -140,7 +140,7 @@ def visualize_model(model, num_images=12):
                 ax.axis('off')
                 o_x, o_y = outputs[j].cpu().tolist()
                 gt_x, gt_y = labels[j].cpu().tolist()
-                ax.set_title(f'Prediction: ({o_x:.4f},{o_y:.4f}) GT: ({gt_x:.4f},{gt_y:.4f})')
+                ax.set_title(f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})')
                 imshow(inputs.cpu().data[j])
 
                 if images_so_far == num_images:
