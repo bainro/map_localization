@@ -1,6 +1,3 @@
-# Started from: https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html
-# @AUTHOR Robert Bain rkbain@uci.edu
-
 import os
 import time
 import torch
@@ -17,9 +14,6 @@ from tempfile import TemporaryDirectory
 from torchvision import datasets, models, transforms
 
 cudnn.benchmark = True
-#plt.ion()   # interactive mode
-
-print("Download the data from https://download.pytorch.org/tutorial/hymenoptera_data.zip")
 
 train_trans = transforms.Compose([
     transforms.RandomResizedCrop(224, antialias=True),
