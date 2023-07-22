@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
 from dataloader import LocalizeDataset
-from tempfile import TemporaryDirectory
 from torchvision import transforms as T
 from torchvision import datasets, models
 
