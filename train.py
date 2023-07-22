@@ -138,7 +138,8 @@ def visualize_model(model, num_images=12):
                 images_so_far += 1
                 ax = plt.subplot(num_images//2, 2, images_so_far)
                 ax.axis('off')
-                ax.set_title(f'predicted: {outputs[j][0][1]} GT: {labels[j]}')
+                import pdb; pdb.set_trace()
+                ax.set_title(f'predicted: {outputs[j]} GT: {labels[j]}')
                 imshow(inputs.cpu().data[j])
 
                 if images_so_far == num_images:
