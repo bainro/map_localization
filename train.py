@@ -162,7 +162,6 @@ def visualize_model(model, num_images=6):
                     model.train(mode=was_training)
                     return
         model.train(mode=was_training)
-        plt.show()
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
 for param in model_conv.parameters():
@@ -189,6 +188,7 @@ optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.01, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=6, gamma=0.1)
 
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=20)
+                         lr_schedule, num_epochs=1)
 
 visualize_model(model_conv)
+plt.show()
