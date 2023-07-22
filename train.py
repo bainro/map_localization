@@ -112,7 +112,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
 
                     # statistics
                     running_loss += loss.item() * inputs.size(0)
-                if phase == 'train':
+                if phase == 'train' and scheduler != None:
                     scheduler.step()
 
                 epoch_loss = running_loss / dataset_sizes[phase]
@@ -180,12 +180,13 @@ criterion = nn.MSELoss()
 
 # Observe that only parameters of final layer are being optimized as
 # opposed to before.
-optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.01, momentum=0.9)
+# optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.01, momentum=0.9)
+optimizer_conv = optim.Adam(model_conv.fc.parameters(), lr=0.01)
 
 # Decay LR by a factor of 0.1 every 7 epochs
-exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=6, gamma=0.1)
+# exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=10, gamma=0.1)
 
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         exp_lr_scheduler, num_epochs=100)
+                         None '''exp_lr_scheduler''', num_epochs=100)
 
 visualize_model(model_conv)
