@@ -49,10 +49,12 @@ class LocalizeDataset(Dataset):
 
         if train:
             self.cam_paths = self.cam_paths[:train_idx]
-            self.meta = self.meta[:train_idx]
+            self.x = self.x[:train_idx]
+            self.y = self.y[:train_idx]
         else:
             self.cam_paths = self.cam_paths[train_idx:]
-            self.meta = self.meta[:train_idx:]
+            self.x = self.x[:train_idx:]
+            self.y = self.y[:train_idx:]
 
         print("Total number of images: %i" % len(self.cam_paths))
 
@@ -67,13 +69,14 @@ class LocalizeDataset(Dataset):
             return img
 
     def __len__(self):
-        return len(self.map_paths)
+        return len(self.cam_paths)
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         cam_img = self._pil_loader(self.cam_paths[idx])
-        meta = self.meta[idx]
+        x = self.x[idx]
+        y = self.y[idx]
         if self.transform is not None:
             cam_img = self.transform(cam_img)
-        return cam_img, meta
+        return cam_img, x, y
