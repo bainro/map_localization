@@ -22,12 +22,12 @@ plt.ion()   # interactive mode
 print("Download the data from https://download.pytorch.org/tutorial/hymenoptera_data.zip")
 
 train_trans = transforms.Compose([
-    transforms.RandomResizedCrop(224, antialias=True),
+    transforms.RandomResizedCrop(224),
     transforms.RandomHorizontalFlip(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 val_trans = transforms.Compose([
-    transforms.Resize(256, antialias=True),
+    transforms.Resize(256),
     transforms.CenterCrop(224),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
