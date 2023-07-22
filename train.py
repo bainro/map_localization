@@ -91,8 +91,11 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 # Iterate over data.
                 for inputs, x, y in dataloaders[phase]:
                     inputs = inputs.to(device)
+                    x = x.to(device)
+                    y = y.to(device)
                     labels = torch.stack([x, y])
-                    labels = labels.to(device)
+                    labels = torch.squeeze(labels, -1)
+                    labels = torch.transpose(labels, 0, 1)
 
                     # zero the parameter gradients
                     optimizer.zero_grad()
