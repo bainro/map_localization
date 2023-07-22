@@ -141,9 +141,13 @@ def visualize_model(model, num_images=6):
     fig = plt.figure()
 
     with torch.no_grad():
-        for i, (inputs, labels) in enumerate(dataloaders['val']):
+        for i, (inputs, x, y) in enumerate(dataloaders['val']):
             inputs = inputs.to(device)
-            labels = labels.to(device)
+            x = x.to(device)
+            y = y.to(device)
+            labels = torch.stack([x, y])
+            labels = torch.squeeze(labels, -1)
+            labels = torch.transpose(labels, 0, 1)
 
             outputs = model(inputs)
             _, preds = torch.max(outputs, 1)
