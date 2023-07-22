@@ -26,8 +26,8 @@ val_trans = T.Compose([
 ])
 
 image_datasets = {}
-image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, target_size=256)
-image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans, target_size=256)
+image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans)
+image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans)
 dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32,
                                              shuffle=True, num_workers=4)
               for x in ['train', 'val']}
