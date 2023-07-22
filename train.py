@@ -58,6 +58,7 @@ def imshow(inp, title=None):
 inputs, _x, _y = next(iter(dataloaders['train']))
 
 # Make a grid from batch
+inputs = inputs[:8,...]
 out = torchvision.utils.make_grid(inputs)
 
 imshow(out, title="Verify the images loaded correctly!")
