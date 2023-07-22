@@ -46,7 +46,7 @@ class LocalizeDataset(Dataset):
         self.x = torch.FloatTensor(np.array(self.x))
         self.y = torch.FloatTensor(np.array(self.y))
 
-        train_split = 0.8
+        train_split = 0.85
         train_idx = int(len(self.cam_paths) * train_split)
 
         if train:
