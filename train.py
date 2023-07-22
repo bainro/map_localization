@@ -168,12 +168,10 @@ for param in model_conv.parameters():
 
 # Parameters of newly constructed modules have requires_grad=True by default
 num_ftrs = model_conv.fc.in_features
-fc = nn.Linear(num_ftrs, 2)
-sig = nn.Sigmoid()
-def sigmoid_fc(x):
-    return sig(fc(x))
-model_conv.fc = sigmoid_fc
-import pdb; pdb.set_trace()
+model_conv.fc = nn.Sequential(
+     nn.Linear(num_ftrs), 
+     nn.Sigmoid(...)
+)
 
 model_conv = model_conv.to(device)
 
