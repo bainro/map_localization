@@ -145,6 +145,10 @@ def visualize_model(model, num_images=16):
                 gt_x, gt_y = labels[j].cpu().tolist()
                 ax.set_title(f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})')
                 imshow(inputs.cpu().data[j])
+
+                if images_so_far == num_images:
+                    model.train(mode=was_training)
+                    return
            
             '''
             gs = GridSpec(1,9) # 1 rows, 9 columns
@@ -181,10 +185,6 @@ def visualize_model(model, num_images=16):
             # plt.pause(0.001)
             plt.clf()
             '''
-            
-            if images_so_far == num_images:
-                model.train(mode=was_training)
-                return
                 
         model.train(mode=was_training)
 
