@@ -203,7 +203,8 @@ def weighted_mse_loss(input, target):
     # scale just the x values
     #@TODO make this not hard-coded to the SBSG blueprint dataset.
     #weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
-    return torch.sum(weight * (input - target) ** 2)
+    sum = torch.sum(weight * (input - target) ** 2)
+    return torch.mean(sum)
 
 criterion = weighted_mse_loss # nn.MSELoss()
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=1, momentum=0.9)
