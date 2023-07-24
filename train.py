@@ -206,9 +206,9 @@ def weighted_mse_loss(input, target):
 
 criterion = weighted_mse_loss
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.1)
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.3)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=40)
+                         lr_schedule, num_epochs=70)
 
 visualize_model(model_conv)
 plt.show()
