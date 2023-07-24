@@ -27,10 +27,10 @@ val_trans = T.Compose([
 
 image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, 
-                                          shuffle=True, split=0.85)
+                                          shuffle=False, split=0.85)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans,
-                                        shuffle=True, split=0.85)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32, shuffle=True, 
+                                        shuffle=False, split=0.85)
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32, shuffle=False, 
                                               num_workers=4, pin_memory=True)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
@@ -221,8 +221,8 @@ criterion = weighted_mse_loss
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.2)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=120)
+                         lr_schedule, num_epochs=0)
 
-visualize_model(model_conv)
-# make_movie(model_conv)
+#visualize_model(model_conv)
+make_movie(model_conv)
 plt.show()
