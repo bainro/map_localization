@@ -202,7 +202,7 @@ def weighted_mse_loss(input, target):
     weight = torch.ones_like(input)
     # scale just the x values
     #@TODO make this not hard-coded to the SBSG blueprint dataset.
-    #weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
+    weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
     return torch.mean(weight * (input - target) ** 2)
 
 criterion = weighted_mse_loss # nn.MSELoss()
