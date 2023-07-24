@@ -218,7 +218,7 @@ def weighted_mse_loss(input, target):
     return torch.mean(weight * (input - target) ** 2)
 
 criterion = weighted_mse_loss
-optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.2, momentum=0.9)
+optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.2)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
                          lr_schedule, num_epochs=120)
