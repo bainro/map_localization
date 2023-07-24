@@ -198,10 +198,14 @@ model_conv.fc = nn.Sequential(
 
 model_conv = model_conv.to(device)
 
-# def weighted_mse_loss(input, target, weight):
-    # return torch.sum(weight * (input - target) ** 2)
+def weighted_mse_loss(input, target):
+    weight = torch.ones_like(input)
+    # scale just the x values
+    #@TODO make this not hard-coded to the SBSG blueprint dataset.
+    weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
+    return torch.sum(weight * (input - target) ** 2)
 
-criterion = nn.MSELoss()
+criterion = weighted_mse_loss() # nn.MSELoss()
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
