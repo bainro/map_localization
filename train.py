@@ -126,7 +126,10 @@ def visualize_model(model, num_images=16):
     fig = plt.figure()
 
     with torch.no_grad():
-        # for i, (inputs, x, y) in enumerate(dataloaders['train']):
+        map_img = plt.imread('./data/2nd_blueprint.png')
+        img_id = 0
+        for i, (inputs, x, y) in enumerate(dataloaders['train']):
+        '''
         for i, (inputs, x, y) in enumerate(dataloaders['val']):
             inputs = inputs.to(device)
             x = x.to(device)
@@ -152,40 +155,42 @@ def visualize_model(model, num_images=16):
                     return
            
             '''
-            gs = GridSpec(1,9) # 1 rows, 9 columns
-            ax = fig.add_subplot(gs[0,:2])
-            # ax = plt.subplot(1, 2, 1)
-            ax.axis('off')
-            o_x, o_y = outputs[0].cpu().tolist()
-            gt_x, gt_y = labels[0].cpu().tolist()
-            ax.set_title("First Person View", fontsize=8)
-            imshow(inputs.cpu().data[0])
-
-            ax = fig.add_subplot(gs[0,2:])
-            # ax = plt.subplot(1, 2, 2)
-            ax.axis('off')
-            o_x, o_y = outputs[0].cpu().tolist()
-            gt_x, gt_y = labels[0].cpu().tolist()
-            map_img = plt.imread('./data/2nd_blueprint.png')
-            ax.imshow(map_img, 
-                       resample=False, 
-                       interpolation='none', 
-                       cmap='gray', 
-                       vmin=0, 
-                       vmax=255)
-
-            # denormalize (i.e. convert back to px space)
-            o_x = o_x * map_img.shape[1]
-            o_y = o_y * map_img.shape[0]
-            gt_x = gt_x * map_img.shape[1]
-            gt_y = gt_y * map_img.shape[0]
-            plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=11, label="Prediction")
-            plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=11, label="Ground Truth")
-            plt.legend(loc="lower right", fontsize=6, frameon=False, bbox_to_anchor=(1.0, -0.05), labelspacing=0.25)
-            fig.savefig(f'/tmp/{i:05d}.png', dpi=1200, bbox_inches='tight') # format='svg'
-            # plt.pause(0.001)
-            plt.clf()
-            '''
+            
+            for j in range(inputs.size()[0]):
+                gs = GridSpec(1,9) # 1 rows, 9 columns
+                ax = fig.add_subplot(gs[0,:2])
+                # ax = plt.subplot(1, 2, 1)
+                ax.axis('off')
+                o_x, o_y = outputs[0].cpu().tolist()
+                gt_x, gt_y = labels[0].cpu().tolist()
+                ax.set_title("First Person View", fontsize=8)
+                imshow(inputs.cpu().data[j])
+    
+                ax = fig.add_subplot(gs[0,2:])
+                # ax = plt.subplot(1, 2, 2)
+                ax.axis('off')
+                o_x, o_y = outputs[j].cpu().tolist()
+                gt_x, gt_y = labels[j].cpu().tolist()
+                ax.imshow(map_img, 
+                           resample=False, 
+                           interpolation='none', 
+                           cmap='gray', 
+                           vmin=0, 
+                           vmax=255)
+    
+                # denormalize (i.e. convert back to px space)
+                o_x = o_x * map_img.shape[1]
+                o_y = o_y * map_img.shape[0]
+                gt_x = gt_x * map_img.shape[1]
+                gt_y = gt_y * map_img.shape[0]
+                plt.scatter(x=o_x, y=o_y, c=[[1.,0.,0.,1.]], s=11, label="Prediction")
+                plt.scatter(x=gt_x, y=gt_y, c=[[0.,1.,0.,1.]], s=11, label="Ground Truth")
+                plt.legend(loc="lower right", fontsize=6, frameon=False, bbox_to_anchor=(1.0, -0.05), labelspacing=0.25)
+                fig.savefig(f'/tmp/{img_id:05d}.png', dpi=1200, bbox_inches='tight') # format='svg'
+                img_id += 1
+                # plt.pause(0.001)
+                plt.clf()
+            #'''
                 
         model.train(mode=was_training)
 
@@ -206,9 +211,9 @@ def weighted_mse_loss(input, target):
 
 criterion = weighted_mse_loss
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.3)
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=40, gamma=0.3)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=70)
+                         lr_schedule, num_epochs=121)
 
 visualize_model(model_conv)
 plt.show()
