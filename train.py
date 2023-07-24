@@ -201,14 +201,15 @@ model_conv = model_conv.to(device)
 def weighted_mse_loss(input, target):
     weight = torch.ones_like(input)
     #@TODO make this a CLI arg
-    weight[:,0] = weight[:,0] / 3.4 # from map's aspect ratio
+    weight[:,1] = weight[:,1] / 3.4 # from map's aspect ratio
+    print(weight[:,1])
     return torch.mean(weight * (input - target) ** 2)
 
 criterion = weighted_mse_loss
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.5)
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=120)
+                         lr_schedule, num_epochs=40)
 
 visualize_model(model_conv)
 plt.show()
