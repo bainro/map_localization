@@ -123,6 +123,7 @@ def make_movie(model):
     map_img = plt.imread('./data/2nd_blueprint.png')
     fig = plt.figure()
     img_id = 0
+    model.eval()
 
     with torch.no_grad():
         for i, (inputs, x, y) in enumerate(dataloaders['train']):
