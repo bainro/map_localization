@@ -27,11 +27,11 @@ val_trans = T.Compose([
 
 image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform=train_trans, 
-                                          shuffle=False, split=0.85)
+                                          shuffle=True, split=0.85)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans,
-                                        shuffle=False, split=0.85)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=64,
-                                             shuffle=False, num_workers=4)
+                                        shuffle=True, split=0.85)
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=16, shuffle=True, 
+                                              num_workers=4, pin_memory=True)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
 
@@ -214,15 +214,15 @@ model_conv = model_conv.to(device)
 def weighted_mse_loss(input, target):
     weight = torch.ones_like(input)
     #@TODO make this a CLI arg
-    weight[:,1] = weight[:,1] / 3.4 # from map's aspect ratio
+    weight[:,1] = weight[:,1] / 11.6 # from map's aspect ratio
     return torch.mean(weight * (input - target) ** 2)
 
 criterion = weighted_mse_loss
-optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
-lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=40, gamma=0.3)
+optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.2, momentum=0.9)
+lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=20, gamma=0.2)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=0)
+                         lr_schedule, num_epochs=120)
 
 visualize_model(model_conv)
-make_movie(model_conv)
+# make_movie(model_conv)
 plt.show()
