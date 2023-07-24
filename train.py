@@ -182,9 +182,10 @@ def visualize_model(model, num_images=1):
             plt.clf()
             '''
             
-                if images_so_far == num_images:
-                    model.train(mode=was_training)
-                    return
+            if images_so_far == num_images:
+                model.train(mode=was_training)
+                return
+                
         model.train(mode=was_training)
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
