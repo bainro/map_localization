@@ -96,7 +96,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                         optimizer.step()
 
                 # statistics
-                running_loss += loss.item() * inputs.size(0)
+                running_loss += loss.item() # * inputs.size(0) #@TODO
             if phase == 'train' and scheduler != None:
                 scheduler.step()
 
@@ -205,7 +205,7 @@ def weighted_mse_loss(input, target):
     weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
     return torch.sum(weight * (input - target) ** 2)
 
-criterion = nn.MSELoss() # weighted_mse_loss
+criterion = weighted_mse_loss # nn.MSELoss()
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
