@@ -4,7 +4,6 @@ import torch
 import torchvision
 import numpy as np
 from PIL import Image
-from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
@@ -127,7 +126,7 @@ def make_movie(model):
     model.eval()
 
     with torch.no_grad():
-        for i, (inputs, x, y) in tqdm(enumerate(dataloaders['train'])):
+        for i, (inputs, x, y) in enumerate(dataloaders['train']):
             inputs = inputs.to(device)
             x = x.to(device)
             y = y.to(device)
@@ -165,6 +164,7 @@ def make_movie(model):
                 plt.legend(loc="lower right", fontsize=6, frameon=False, bbox_to_anchor=(1.0, -0.05), labelspacing=0.25)
                 fig.savefig(f'/tmp/{img_id:05d}.png', dpi=1200, bbox_inches='tight') # format='svg'
                 img_id += 1
+                print(f"movie frame #{img_id} done")
                 # plt.pause(0.001)
                 plt.clf()
 
