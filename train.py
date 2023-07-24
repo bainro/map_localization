@@ -126,6 +126,13 @@ def make_movie(model):
 
     with torch.no_grad():
         for i, (inputs, x, y) in enumerate(dataloaders['train']):
+            inputs = inputs.to(device)
+            x = x.to(device)
+            y = y.to(device)
+            labels = torch.stack([x, y])
+            labels = torch.squeeze(labels, -1)
+            labels = torch.transpose(labels, 0, 1)
+            outputs = model(inputs)
             for j in range(inputs.size()[0]):
                 gs = GridSpec(1,9) # 1 rows, 9 columns
                 ax = fig.add_subplot(gs[0,:2])
