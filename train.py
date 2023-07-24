@@ -203,9 +203,9 @@ def weighted_mse_loss(input, target):
     # scale just the x values
     #@TODO make this not hard-coded to the SBSG blueprint dataset.
     weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
-    return torch.sum(weight * (input - target) ** 2).mean()
+    return torch.sum(weight * (input - target) ** 2)
 
-criterion = weighted_mse_loss # nn.MSELoss()
+criterion = nn.MSELoss() # weighted_mse_loss
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
