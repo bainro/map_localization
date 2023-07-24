@@ -17,11 +17,11 @@ from matplotlib.gridspec import GridSpec
 cudnn.benchmark = True
 
 train_trans = T.Compose([
-    T.Resize(224),#, antialias=True),
+    T.Resize(224, antialias=True),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 val_trans = T.Compose([
-    T.Resize(224),#, antialias=True),
+    T.Resize(224, antialias=True),
     T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
@@ -30,7 +30,7 @@ image_datasets['train'] = LocalizeDataset('./data/nongen', train=True, transform
                                           shuffle=False, split=0.85)
 image_datasets['val'] = LocalizeDataset('./data/nongen', train=False, transform=val_trans,
                                         shuffle=False, split=0.85)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=1,
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=64,
                                              shuffle=False, num_workers=4)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
