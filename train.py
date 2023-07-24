@@ -202,7 +202,7 @@ def weighted_mse_loss(input, target):
     weight = torch.ones_like(input)
     #@TODO make this a CLI arg
     weight[:,1] = weight[:,1] / 3.4 # from map's aspect ratio
-    print(weight[:,1])
+    print(target[:,1])
     return torch.mean(weight * (input - target) ** 2)
 
 criterion = weighted_mse_loss
