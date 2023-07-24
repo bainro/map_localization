@@ -119,15 +119,15 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
     model.load_state_dict(torch.load(best_model_params_path))
     return model
 
-def visualize_model(model, num_images=1):
+def visualize_model(model, num_images=16):
     was_training = model.training
     model.eval()
     images_so_far = 0
     fig = plt.figure()
 
     with torch.no_grad():
-        for i, (inputs, x, y) in enumerate(dataloaders['train']):
-        # for i, (inputs, x, y) in enumerate(dataloaders['val']):
+        # for i, (inputs, x, y) in enumerate(dataloaders['train']):
+        for i, (inputs, x, y) in enumerate(dataloaders['val']):
             inputs = inputs.to(device)
             x = x.to(device)
             y = y.to(device)
