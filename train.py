@@ -165,7 +165,7 @@ def make_movie(model):
                 fig.savefig(f'/tmp/{img_id:05d}.png', dpi=1200, bbox_inches='tight') # format='svg'
                 img_id += 1
                 print(f"movie frame #{img_id} done")
-                # plt.pause(0.001)
+                plt.pause(0.001)
                 plt.clf()
 
 
