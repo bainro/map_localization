@@ -137,9 +137,9 @@ def visualize_model(model, num_images=16):
             labels = torch.stack([x, y])
             labels = torch.squeeze(labels, -1)
             labels = torch.transpose(labels, 0, 1)
-
+         
             outputs = model(inputs)
-
+        
             for j in range(inputs.size()[0]):
                 images_so_far += 1
                 ax = plt.subplot(num_images//4, 4, images_so_far)
@@ -149,7 +149,7 @@ def visualize_model(model, num_images=16):
                 title = f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})'
                 ax.set_title(title, fontsize=8)
                 imshow(inputs.cpu().data[j])
-
+        
                 if images_so_far == num_images:
                     model.train(mode=was_training)
                     return
