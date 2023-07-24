@@ -201,7 +201,7 @@ model_conv = model_conv.to(device)
 def weighted_mse_loss(input, target):
     weight = torch.ones_like(input)
     #@TODO make this a CLI arg
-    weight[:,1] = weight[:,1] / 3.4 # from map's aspect ratio
+    weight[:,0] = weight[:,0] / 3.4 # from map's aspect ratio
     return torch.mean(weight * (input - target) ** 2)
 
 criterion = weighted_mse_loss
