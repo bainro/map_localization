@@ -96,7 +96,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=1):
                         optimizer.step()
 
                 # statistics
-                running_loss += loss.item() * inputs.size(0) #@TODO
+                running_loss += loss.item() * inputs.size(0)
             if phase == 'train' and scheduler != None:
                 scheduler.step()
 
