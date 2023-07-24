@@ -154,7 +154,7 @@ def visualize_model(model, num_images=16):
                     model.train(mode=was_training)
                     return
            
-            '''
+        '''
             
             for j in range(inputs.size()[0]):
                 gs = GridSpec(1,9) # 1 rows, 9 columns
