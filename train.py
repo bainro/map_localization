@@ -137,8 +137,8 @@ def make_movie(model):
                 gs = GridSpec(1,9) # 1 rows, 9 columns
                 ax = fig.add_subplot(gs[0,:2])
                 ax.axis('off')
-                o_x, o_y = outputs[0].cpu().tolist()
-                gt_x, gt_y = labels[0].cpu().tolist()
+                o_x, o_y = outputs[j].cpu().tolist()
+                gt_x, gt_y = labels[j].cpu().tolist()
                 ax.set_title("First Person View", fontsize=8)
                 imshow(inputs.cpu().data[j])
     
