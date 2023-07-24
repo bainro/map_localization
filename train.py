@@ -137,7 +137,6 @@ def visualize_model(model, num_images=1):
 
             outputs = model(inputs)
 
-            '''
             for j in range(inputs.size()[0]):
                 images_so_far += 1
                 ax = plt.subplot(num_images//4, 4, images_so_far)
@@ -146,8 +145,8 @@ def visualize_model(model, num_images=1):
                 gt_x, gt_y = labels[j].cpu().tolist()
                 ax.set_title(f'Predicted: ({o_x:.3f},{o_y:.3f}) \nGT: ({gt_x:.3f},{gt_y:.3f})')
                 imshow(inputs.cpu().data[j])
-           '''
-
+           
+            '''
             gs = GridSpec(1,9) # 1 rows, 9 columns
             ax = fig.add_subplot(gs[0,:2])
             # ax = plt.subplot(1, 2, 1)
@@ -181,12 +180,11 @@ def visualize_model(model, num_images=1):
             fig.savefig(f'/tmp/{i:05d}.png', dpi=1200, bbox_inches='tight') # format='svg'
             # plt.pause(0.001)
             plt.clf()
-            
             '''
+            
                 if images_so_far == num_images:
                     model.train(mode=was_training)
                     return
-            '''
         model.train(mode=was_training)
 
 model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
@@ -201,15 +199,15 @@ model_conv = model_conv.to(device)
 def weighted_mse_loss(input, target):
     weight = torch.ones_like(input)
     # scale just the x values
-    #@TODO make this not hard-coded to the SBSG blueprint dataset.
-    weight[:,0] = weight[:,0] * 3.4 # calculated from aspect ratio
+    #@TODO make this a CLI arg
+    weight[:,0] = weight[:,0] * 3.4 # from map's aspect ratio
     return torch.mean(weight * (input - target) ** 2)
 
-criterion = weighted_mse_loss # nn.MSELoss()
+criterion = weighted_mse_loss
 optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.1, momentum=0.9)
 lr_schedule = lr_scheduler.StepLR(optimizer_conv, step_size=45, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv,
-                         lr_schedule, num_epochs=20)
+                         lr_schedule, num_epochs=120)
 
 # visualize_model(model_conv)
 # plt.show()
