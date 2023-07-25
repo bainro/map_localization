@@ -27,10 +27,10 @@ val_trans = T.Compose([
 
 image_datasets = {}
 image_datasets['train'] = LocalizeDataset('./data/history_ch', train=True, transform=train_trans, 
-                                          shuffle=False, split=0.85)
+                                          shuffle=True, split=0.85)
 image_datasets['val'] = LocalizeDataset('./data/history_ch', train=False, transform=val_trans,
-                                        shuffle=False, split=0.85)
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32, shuffle=False, 
+                                        shuffle=True, split=0.85)
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=32, shuffle=True, 
                                               num_workers=4, pin_memory=True)
               for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
